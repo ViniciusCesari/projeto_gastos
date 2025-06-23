@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Gastos</title>
+    <style>
+        
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        h1, h2 { text-align: center; color: #0056b3; }
+        form { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        form input[type="text"], form input[type="number"] { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        form button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        form button:hover { background-color: #0056b3; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f8f8f8; }
+        .delete-link { color: #dc3545; text-decoration: none; }
+        .delete-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Meu Controle de Gastos</h1>
+
+        <h2>Adicionar Novo Gasto</h2>
+        <form method="POST">
+            <input type="text" name="descricao" placeholder="Descrição do gasto" required>
+            <input type="number" name="valor" step="0.01" placeholder="Valor (ex: 25.50)" required>
+            <button type="submit">Adicionar</button>
+        </form>
+
+        <h2>Histórico de Gastos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Valor (R$)</th>
+                    <th>Data</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gasto in gastos %}
+                <tr>
+                    <td>{{ gasto['descricao'] }}</td>
+                    <td>{{ "%.2f"|format(gasto['valor']) }}</td>
+                    <td>{{ gasto['data'] }}</td>
+                    <td>
+                        <a href="{{ url_for('deletar', id=gasto['id']) }}" class="delete-link">Deletar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
